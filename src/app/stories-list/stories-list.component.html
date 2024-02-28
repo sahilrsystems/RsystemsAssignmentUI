@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-center"> 
+  <div class="spinner-border" role="status"> 
+      <span class="loading sr-only" [style.display]="display"></span> 
+  </div> 
+</div> 
+<div *ngIf="hackerNewsStoryList" class="mat-card-content">
+  <h1 class="storyHeader">Top News for today</h1>
+  
+    <div class="card-wrapper">
+    <mat-form-field class="mat-form-field">
+      <input matInput placeholder="Search" (keyup)="search($event)">
+    </mat-form-field>
+    <mat-card class="example-card" *ngFor="let story of hackerNewsStoryList" [ngClass]="story.url != '' ? 'hyperlink' : ''" (click)="story.url != '' ? open(story.url) :false">
+        <mat-card-content>
+            <mat-card-title>{{ story.title }}</mat-card-title> <mat-card-subtitle>by {{ story.by }}</mat-card-subtitle>
+           
+          </mat-card-content>
+    </mat-card>
+    
+    <mat-paginator
+    #paginator
+    (page)="handlePageEvent($event)"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="[]" 
+    [pageSize]="pageSize" [length]="totalCount" 
+    [pageIndex]="pageIndex"></mat-paginator>
+</div>
+</div>

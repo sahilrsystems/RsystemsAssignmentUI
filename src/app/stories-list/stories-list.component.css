@@ -1,0 +1,45 @@
+.example-card {
+    max-width: 70%;
+  }
+
+  mat-card {
+    margin: 10px;
+  }
+  mat-card:hover {
+    background-color: rgb(152, 168, 184);
+  }
+  
+  .hyperlink{
+    cursor: pointer;
+  }
+
+  .mat-form-field{
+    margin: 10px;
+  }
+  .storyHeader{
+    margin-left: 30%;
+    background-image: radial-gradient(#e1dee9,#6662da);
+    max-width: 30%;
+    text-align: center;
+  }
+
+  .loading{ 
+    position: absolute; 
+    left: 50%; 
+    top: 50%; 
+    z-index: 1; 
+    width: 150px; 
+    height: 150px; 
+    margin: -75px 0 0 -75px; 
+    border: 16px solid #f3f3f3; 
+    border-radius: 50%; 
+    border-top: 16px solid #3498db; 
+    width: 120px; 
+    height: 120px; 
+    animation: spin 2s linear infinite; 
+    } 
+      
+    @keyframes spin { 
+      0% { transform: rotate(0deg); } 
+      100% { transform: rotate(360deg); } 
+    }

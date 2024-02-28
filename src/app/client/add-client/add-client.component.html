@@ -1,0 +1,15 @@
+<div class="example-container mat-elevation-z8">
+    <form [formGroup]="clientForm" class="horizontal-form" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Client Name</mat-label>
+          <input matInput formControlName="clientName" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Account</mat-label>
+            <mat-select formControlName="accountID">
+                <mat-option *ngFor="let account of accounts" [value]="account.accountID">{{ account.accountName }}</mat-option>
+              </mat-select>
+          </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Add</button>
+      </form>
+    </div>
