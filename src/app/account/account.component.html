@@ -13,7 +13,7 @@
         <td mat-cell *matCellDef="let element" [class.hidden-column]="hideColumn">{{element.accountID}}</td>
       </ng-container>
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <th mat-header-cell *matHeaderCellDef>Name<mat-icon>edit</mat-icon></th>
         <td mat-cell *matCellDef="let element; let i = index" (click)="onCellClick(i)">
           <ng-container *ngIf="selectedCellIndex !== i; else editMode">
             {{ element.accountName }}

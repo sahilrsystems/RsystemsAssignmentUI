@@ -19,21 +19,30 @@
         <td mat-cell *matCellDef="let element">{{element.clientName}}</td>
       </ng-container>
       <ng-container matColumnDef="appointmentStartTime">
-        <th mat-header-cell *matHeaderCellDef>Appointment Start Time</th>
-        <td mat-cell *matCellDef="let element; let i = index" (click)="onCellClick(i)">
-          <ng-container *ngIf="selectedCellIndex !== i; else editMode">
+        <th mat-header-cell *matHeaderCellDef>Appointment Start Time<mat-icon>edit</mat-icon></th>
+        <td mat-cell *matCellDef="let element; let i = index" (click)="onCellClick(i, 'start')">
+          <ng-container *ngIf="selectedCellIndex !== i || selectedCellType !== 'start'; else editMode">
             {{ element.appointmentStartTime | date:'yyyy-MM-dd' }}
           </ng-container>
           <ng-template #editMode>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="editDateValue" (click)="stopPropagation($event)">
-            <button mat-button (click)="saveDate(element)">Save</button>
-            <mat-datepicker #picker></mat-datepicker>
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="editStartDateValue" (click)="stopPropagation($event)">
+            <button mat-button (click)="saveDate(element, 'start')">Save</button>
+            <mat-datepicker #startPicker></mat-datepicker>
           </ng-template>
         </td>
       </ng-container>
       <ng-container matColumnDef="appointmentEndTime">
-        <th mat-header-cell *matHeaderCellDef>Appointment End Time</th>
-        <td mat-cell *matCellDef="let element">{{element.appointmentEndTime | date:'yyyy-MM-dd'}}</td>
+        <th mat-header-cell *matHeaderCellDef>Appointment End Time<mat-icon>edit</mat-icon></th>
+        <td mat-cell *matCellDef="let element;let i = index" (click)="onCellClick(i, 'end')">
+          <ng-container *ngIf="selectedCellIndex !== i || selectedCellType !== 'end'; else editMode">
+            {{ element.appointmentEndTime | date:'yyyy-MM-dd' }}
+          </ng-container>
+          <ng-template #editMode>
+            <input matInput [matDatepicker]="endPicker" [(ngModel)]="editEndDateValue" (click)="stopPropagation($event)">
+            <button mat-button (click)="saveDate(element, 'end')">Save</button>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </ng-template>
+        </td>
       </ng-container>
       <ng-container matColumnDef="createddate">
         <th mat-header-cell *matHeaderCellDef>Created Date</th>

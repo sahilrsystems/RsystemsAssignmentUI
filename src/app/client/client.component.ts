@@ -24,6 +24,7 @@ export class ClientComponent {
   selectedCellIndex: number | null = null;
   accountID:number=0;
   accounts: any[]=[];
+ 
   
   constructor(private dataService: ClientService,private accountService: AccountService,public dialog: MatDialog) { }
 
