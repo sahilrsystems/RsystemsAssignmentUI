@@ -8,10 +8,14 @@ import { Account } from '../Entities/Account';
 })
 export class AccountService {
   private baseUrl = 'https://localhost:7060/api/'; // Replace with your API URL
-  getAccounts(pageNumber:number,pageSize:number): Observable<Account[]> {
+  getAccounts(pageNumber:number,pageSize:number, searchValue:any): Observable<Account[]> {
+    if(searchValue == "null"){
+      searchValue = "";
+    }
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
-      .set('pageSize', pageSize.toString());
+      .set('pageSize', pageSize.toString())
+      .set('searchValue', searchValue);
     return this.http.get<any[]>(this.baseUrl +'Account/Index',{params });
   }
 

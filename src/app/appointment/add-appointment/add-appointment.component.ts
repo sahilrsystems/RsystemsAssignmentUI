@@ -27,7 +27,7 @@ export class AddAppointmentComponent {
 
   ngOnInit(): void {   
 
-    this.accountService.getAccounts(0,25)
+    this.accountService.getAccounts(0,25,null)
     .subscribe((data: any) =>  {
       console.log(data.accounts);
       this.accounts = data.accounts;
@@ -37,7 +37,7 @@ export class AddAppointmentComponent {
 
   onAccountChange(accountID:number){
     console.log(accountID);
-   return this.clientService.getClients(0,25,accountID)
+   return this.clientService.getClients(0,25,accountID,null)
     .subscribe((data: any) =>  {
       console.log(data.clients);
       this.clients = data.clients;
