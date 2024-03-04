@@ -5,6 +5,9 @@
     <mat-option (onSelectionChange)="onAccountChange(account.accountID)"  *ngFor="let account of accounts" [value]="account.accountID">{{ account.accountName }}</mat-option>
   </mat-select>
 </mat-form-field>
+<mat-form-field class="mat-form-field padding-top padding">
+  <input matInput class="padding-top" placeholder="Search" (keyup)="search($event)">
+</mat-form-field>
 <a routerLink="/addClient" routerLinkActive="active" class="mat-button primary padding">Add Client</a>
 <div class="example-container mat-elevation-z8">
   <label class="padding">Note : Click on cell to edit</label>

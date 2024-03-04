@@ -9,11 +9,15 @@ import { Observable } from 'rxjs';
 export class ClientService {
   private baseUrl = 'https://localhost:7060/api/'; // Replace with your API URL
   
-  getClients(pagenumber:number,pageCount:number,accountID:number): Observable<Client[]> {
+  getClients(pagenumber:number,pageCount:number,accountID:number,searchedValue:any): Observable<Client[]> {
+    if(searchedValue == "null"){
+      searchedValue = "";
+    }
     let params = new HttpParams()
       .set('pageIndex', pagenumber.toString())
       .set('pageSize', pageCount.toString())
-      .set('accountID', accountID.toString());
+      .set('accountID', accountID.toString())
+      .set('searchValue', searchedValue);
     return this.http.get<any[]>(this.baseUrl +'Client/Index',{ params });
   }
 

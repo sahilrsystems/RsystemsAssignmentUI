@@ -20,6 +20,7 @@ export class AccountComponent {
   pageSize: number = 5;
   pageIndex: number = 0;
   selectedCellIndex: number | null = null;
+  searchedValue:string|null=null;
 
   constructor(private dataService: AccountService,public dialog: MatDialog) { }
 
@@ -37,6 +38,11 @@ export class AccountComponent {
     this.selectedCellIndex = index;
   }
 
+  search(event: KeyboardEvent) {
+    this.searchedValue=(event.target as HTMLTextAreaElement).value
+    this.loadItems();
+  }
+
   onEdit(element: Account): void {
     console.log('Element edited:', element);
    
@@ -52,7 +58,8 @@ export class AccountComponent {
   }
 
   loadItems() {
-    this.dataService.getAccounts(this.pageIndex, this.pageSize).subscribe(
+    console.log(this.searchedValue);
+    this.dataService.getAccounts(this.pageIndex, this.pageSize,this.searchedValue).subscribe(
       (items: any) => {
         console.log(items)
         this.dataSource.data = items.accounts;

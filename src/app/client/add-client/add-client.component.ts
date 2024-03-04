@@ -21,7 +21,7 @@ export class AddClientComponent {
   constructor(private formBuilder: FormBuilder, private clientService: ClientService,private accountService: AccountService,private router: Router) { }
 
   ngOnInit(): void {
-    this.accountService.getAccounts(0,25)
+    this.accountService.getAccounts(0,25,null)
     .subscribe((data: any) =>  {
       console.log(data.accounts);
       this.accounts = data.accounts;

@@ -24,6 +24,7 @@ export class ClientComponent {
   selectedCellIndex: number | null = null;
   accountID:number=0;
   accounts: any[]=[];
+  searchedValue:string|null=null;
  
   
   constructor(private dataService: ClientService,private accountService: AccountService,public dialog: MatDialog) { }
@@ -38,8 +39,13 @@ export class ClientComponent {
     this.loadItems(this.pageIndex, this.pageSize,this.accountID); // Reload data when pagination changes
   }
 
+  search(event: KeyboardEvent) {
+    this.searchedValue=(event.target as HTMLTextAreaElement).value;
+    this.loadAccounts();
+  }
+
   loadAccounts(){
-    this.accountService.getAccounts(0,25)
+    this.accountService.getAccounts(0,25,null)
     .subscribe((data: any) =>  {
       console.log(data.accounts);
       this.accounts = data.accounts;
@@ -71,7 +77,7 @@ export class ClientComponent {
     this.selectedCellIndex = null;
     this.dataService.updateClient(element).subscribe(
       (items: any) => {
-        this.loadItems(this.pageIndex, this.pageSize,element.AccountID)
+        this.loadItems(this.pageIndex, this.pageSize,this.accountID)
       },
       error => {
         console.log('Error fetching data:', error);
@@ -86,7 +92,7 @@ export class ClientComponent {
   }
 
   loadItems(pageNumber:number,pageCount:number,accountID:number) {
-    this.dataService.getClients(pageNumber,pageCount,accountID).subscribe(
+    this.dataService.getClients(pageNumber,pageCount,accountID,this.searchedValue).subscribe(
       (items: any) => {
         console.log(items)
         this.dataSource.data = items.clients;
