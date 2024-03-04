@@ -1,25 +1,30 @@
-<div class="example-container mat-elevation-z8">
+<div class="example-container mat-elevation-z8 padding-top">
     <form [formGroup]="appointmentForm" class="horizontal-form" (ngSubmit)="onSubmit()">
         <mat-form-field>
-            <mat-label>Choose a appointment start date</mat-label>
+            <mat-label>Choose start date</mat-label>
             <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="appointmentStartTime">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Choose a appointment end date</mat-label>
+            <mat-label>Choose end date</mat-label>
             <input matInput [matDatepicker]="picker1" placeholder="Choose a date" formControlName="appointmentEndTime">
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>          
+          <mat-form-field>
+            <mat-label>Account</mat-label>
+            <mat-select formControlName="accountID">
+                <mat-option (onSelectionChange)="onAccountChange(account.accountID)"  *ngFor="let account of accounts" [value]="account.accountID">{{ account.accountName }}</mat-option>
+              </mat-select>
           </mat-form-field>
-          
-          
         <mat-form-field>
             <mat-label>Client</mat-label>
             <mat-select formControlName="clientID">
                 <mat-option *ngFor="let client of clients" [value]="client.clientID">{{ client.clientName }}</mat-option>
               </mat-select>
           </mat-form-field>
+          
         <button mat-raised-button color="primary" type="submit">Add</button>
       </form>
     </div>

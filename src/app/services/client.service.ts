@@ -9,10 +9,11 @@ import { Observable } from 'rxjs';
 export class ClientService {
   private baseUrl = 'https://localhost:7060/api/'; // Replace with your API URL
   
-  getClients(pagenumber:number,pageCount:number): Observable<Client[]> {
+  getClients(pagenumber:number,pageCount:number,accountID:number): Observable<Client[]> {
     let params = new HttpParams()
       .set('pageIndex', pagenumber.toString())
-      .set('pageSize', pageCount.toString());
+      .set('pageSize', pageCount.toString())
+      .set('accountID', accountID.toString());
     return this.http.get<any[]>(this.baseUrl +'Client/Index',{ params });
   }
 
@@ -26,9 +27,10 @@ export class ClientService {
     return this.http.put<any[]>(this.baseUrl +'Client/Update',client);
   }
 
-  deleteClient(id:number): Observable<boolean> {
+  deleteClient(id:number,accountID:number): Observable<boolean> {
     let params = new HttpParams()
-      .set('id', id.toString());
+      .set('id', id.toString())
+      .set('accountID', accountID.toString());
     return this.http.delete<boolean>(this.baseUrl +'Client/Delete',{params });
   }
   constructor(private http: HttpClient) { }

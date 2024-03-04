@@ -13,9 +13,10 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(this.baseUrl +'Appointment/Index');
   }
 
-  deleteAppointment(id:number): Observable<boolean> {
+  deleteAppointment(id:number,accountID:number): Observable<boolean> {
     let params = new HttpParams()
-      .set('id', id.toString());
+      .set('appointmentID', id.toString())
+      .set('accountID', accountID.toString());
     return this.http.delete<boolean>(this.baseUrl +'Appointment/Delete',{params });
   }
 

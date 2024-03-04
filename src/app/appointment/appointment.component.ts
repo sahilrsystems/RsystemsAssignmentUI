@@ -14,16 +14,19 @@ import { Router } from '@angular/router';
 })
 export class AppointmentComponent {
   hideColumn = true;
-  displayedColumns: string[] = ['id','clientName', 'appointmentStartTime','appointmentEndTime','createddate','actions'];
+  displayedColumns: string[] = ['id','accountID','clientName', 'appointmentStartTime','appointmentEndTime','createddate','actions'];
   currentDate=new Date();
   dataSource = new MatTableDataSource<Appointment>();
   dataSource2 = new MatTableDataSource<any>();
   totalItems: number = 0; 
   pageSize: number = 10;
   pageIndex: number = 0;
-  selectedCellIndex: number | null = null;
+  selectedCellIndex: number = -1;
   editingIndex: number | null = null;
   editDateValue: Date = new Date();
+  selectedCellType: string = "";
+  editStartDateValue: Date= new Date();
+  editEndDateValue: Date= new Date();
   
   constructor(private dataService: AppointmentService,public dialog: MatDialog,private router: Router) { }
 
@@ -38,20 +41,33 @@ export class AppointmentComponent {
   }
 
 
-  onCellClick(index: number): void {
+  onCellClick(index: number, type: string): void {
     this.selectedCellIndex = index;
+    this.selectedCellType = type;
     this.editDateValue = this.dataSource2.data[index].appointmentStartTime;
+    if (type === 'start') {
+      this.editStartDateValue = this.dataSource2.data[index].appointmentStartTime;
+    } else if (type === 'end') {
+      this.editEndDateValue = this.dataSource2.data[index].appointmentEndTime;
+    }
   }
 
   stopPropagation(event: Event): void {
     event.stopPropagation();
   }
 
-  saveDate(element: Appointment): void {
+  saveDate(element: any, type: string): void {
+    this.dataSource.data[this.selectedCellIndex].AppointmentStartTime = this.editDateValue;
     element.AppointmentStartTime = this.editDateValue;
-    console.log(element.AppointmentStartTime);
+    if (type === 'start') {
+      element.AppointmentStartTime = this.editStartDateValue;
+    } else if (type === 'end') {
+      element.AppointmentEndTime = this.editEndDateValue;
+    }
     this.selectedCellIndex = -1;
     this.editingIndex = null;
+    this.selectedCellIndex = -1;
+    this.selectedCellType = "";
     this.dataService.updateAppointment(element).subscribe(
       (items: any) => {
        location.reload();
@@ -76,13 +92,14 @@ export class AppointmentComponent {
     );
   }
 
-  openDeleteDialog(id:number): void {
+  openDeleteDialog(id:number,accountID:number): void {
+    console.log(id,accountID);
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataService.deleteAppointment(id).subscribe((data:boolean) => { this.loadItems(1,25); },
+        this.dataService.deleteAppointment(id,accountID).subscribe((data:boolean) => { this.loadItems(0,25); },
         error => console.log(error)
        
     );

@@ -6,5 +6,5 @@ export interface Client {
   AccountID: number;
   CreatedDate?: Date;
   ModifiedDate?: Date;
-  Account:Account;
-  }
+  AccountName:string;
+}
