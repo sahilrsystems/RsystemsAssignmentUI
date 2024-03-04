@@ -1,3 +1,7 @@
 .hidden-column {
     display: none;
   }
+
+  .padding{
+    padding-left:10px;;
+  }

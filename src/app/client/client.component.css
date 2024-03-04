@@ -1,3 +1,11 @@
 .hidden-column {
     display: none;
   }
+
+.padding-left{
+  padding-left: 10px;
+}
+
+.padding{
+  padding-left:10px;;
+}

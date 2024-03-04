@@ -6,6 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-client',
@@ -14,33 +15,44 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ClientComponent {
   hideColumn = true;
-  displayedColumns: string[] = ['id', 'name','account','createddate','actions'];
+  displayedColumns: string[] = ['id','accountID', 'name','account','createddate','actions'];
   currentDate=new Date();
   dataSource = new MatTableDataSource<Client>();
   totalItems: number = 0;
   pageSize: number = 10; 
   pageIndex: number = 0;
   selectedCellIndex: number | null = null;
+  accountID:number=0;
+  accounts: any[]=[];
   
-  constructor(private dataService: ClientService,public dialog: MatDialog) { }
+  constructor(private dataService: ClientService,private accountService: AccountService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.loadItems(this.pageIndex, this.pageSize);
+    this.loadAccounts();
   }
 
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.loadItems(this.pageIndex, this.pageSize); // Reload data when pagination changes
+    this.loadItems(this.pageIndex, this.pageSize,this.accountID); // Reload data when pagination changes
   }
 
-  openDeleteDialog(id:number): void {
+  loadAccounts(){
+    this.accountService.getAccounts(0,25)
+    .subscribe((data: any) =>  {
+      console.log(data.accounts);
+      this.accounts = data.accounts;
+    }, error => {
+    });
+  }
+
+  openDeleteDialog(id:number,accountID:number): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataService.deleteClient(id).subscribe((data:boolean) => { this.loadItems(1,25); },
+        this.dataService.deleteClient(id,accountID).subscribe((data:boolean) => { this.loadItems(0,25,this.accountID); },
         error => console.log(error)
        
     );
@@ -58,7 +70,7 @@ export class ClientComponent {
     this.selectedCellIndex = null;
     this.dataService.updateClient(element).subscribe(
       (items: any) => {
-        this.loadItems(this.pageIndex, this.pageSize)
+        this.loadItems(this.pageIndex, this.pageSize,element.AccountID)
       },
       error => {
         console.log('Error fetching data:', error);
@@ -66,8 +78,14 @@ export class ClientComponent {
     );
   }
 
-  loadItems(pageNumber:number,pageCount:number) {
-    this.dataService.getClients(pageNumber,pageCount).subscribe(
+  onAccountChange(accountID:number){
+    console.log(accountID);
+    this.accountID = accountID;
+   this.loadItems(this.pageIndex, this.pageSize,this.accountID)
+  }
+
+  loadItems(pageNumber:number,pageCount:number,accountID:number) {
+    this.dataService.getClients(pageNumber,pageCount,accountID).subscribe(
       (items: any) => {
         console.log(items)
         this.dataSource.data = items.clients;

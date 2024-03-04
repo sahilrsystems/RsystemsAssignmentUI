@@ -37,6 +37,7 @@ export class AddClientComponent {
     const formData = this.clientForm.value as Client;
     formData.CreatedDate=new Date();
     formData.ModifiedDate=new Date();
+    formData.AccountName="";
     this.clientService.createClient(formData)
       .subscribe(() => {
         this.router.navigate(['/clients']);
